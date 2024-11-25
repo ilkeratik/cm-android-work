@@ -1,30 +1,18 @@
 package com.ilkeratik.watchlist.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier) {
-    var waterCount by remember { mutableStateOf(0) }
+    val tasks = List(2) { i -> WellnessTask(i, "Task # ${i+1}") } .toMutableStateList()
 
-    var juiceCount by remember { mutableStateOf(0) }
     Column(modifier = modifier) {
-        StatelessCounter(waterCount, { waterCount++ })
-        StatelessCounter(juiceCount, { juiceCount++ })
-        WellnessTasksList()
+        StatefulAddTask(onSave = { newTask -> tasks.add(newTask) })
+        WellnessTasksList(list = tasks, onCloseTask = { task -> tasks.remove(task) })
     }
 
 }
+

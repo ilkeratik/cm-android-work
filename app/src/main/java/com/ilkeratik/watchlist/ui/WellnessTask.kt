@@ -5,21 +5,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 
 data class WellnessTask(val id: Int, val label: String)
 
-fun getWellnessTasks() = List(30) { i -> WellnessTask(i, "Task # $i") }
 
 @Composable
 fun WellnessTasksList(
     modifier: Modifier = Modifier,
-    list: List<WellnessTask> = remember { getWellnessTasks() }
+    list: List<WellnessTask> = emptyList(),
+    onCloseTask: (WellnessTask) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(list) { task ->
-            WellnessTaskItem(taskName = task.label)
+            WellnessTaskItem(taskName = task.label, onClose = { onCloseTask(task) })
         }
     }
 }
