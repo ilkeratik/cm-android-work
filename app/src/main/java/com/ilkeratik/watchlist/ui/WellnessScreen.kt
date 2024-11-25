@@ -2,17 +2,18 @@ package com.ilkeratik.watchlist.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ilkeratik.watchlist.viewmodel.WellnessViewModel
 
 @Composable
-fun WellnessScreen(modifier: Modifier = Modifier) {
-    val tasks = List(2) { i -> WellnessTask(i, "Task # ${i+1}") } .toMutableStateList()
-
+fun WellnessScreen(modifier: Modifier = Modifier,
+                   wellnessViewModel: WellnessViewModel = viewModel()) {
     Column(modifier = modifier) {
-        StatefulAddTask(onSave = { newTask -> tasks.add(newTask) })
-        WellnessTasksList(list = tasks, onCloseTask = { task -> tasks.remove(task) })
+        StatefulAddTask(onSave = { newTask -> wellnessViewModel.add(newTask) })
+        WellnessTasksList(list = wellnessViewModel.tasks, onCloseTask = { task -> wellnessViewModel.remove(task) })
     }
-
 }
 
