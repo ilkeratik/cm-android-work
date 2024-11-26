@@ -1,11 +1,9 @@
 package com.ilkeratik.watchlist.ui
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.ilkeratik.watchlist.data.WellnessTask
 
 @Composable
 fun StatefulAddTask(onSave: (WellnessTask) -> Unit, modifier: Modifier = Modifier) {
@@ -31,12 +29,12 @@ fun StatelessAddTask(input: String, onInputChange: (String) -> Unit, onSave: (We
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween) {
         OutlinedTextField(
-            maxLines = 1,
+            singleLine = true,
             label = { Text("Enter Task") },
             value = input,
             onValueChange = { vax -> onInputChange(vax) },
         )
-        Button (onClick = {onSave(WellnessTask(12,input)); onInputChange("")}) {
+        Button (onClick = {onSave(WellnessTask(input,input)); onInputChange("")}) {
             Text("+", fontSize = 30.sp)
         }
     }
