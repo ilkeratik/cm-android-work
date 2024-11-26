@@ -7,25 +7,25 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 
-class WellnessTask(val id: String, val label: String, val checked: MutableState<Boolean> = mutableStateOf(false))
+class WatchItem(val id: String, val label: String, val checked: MutableState<Boolean> = mutableStateOf(false))
 
 
 @Composable
-fun WellnessTasksList(
+fun WatchItemsList(
     modifier: Modifier = Modifier,
-    list: List<WellnessTask> = emptyList(),
-    onCheckedTask: (WellnessTask, Boolean) -> Unit,
-    onCloseTask: (WellnessTask) -> Unit
+    list: List<WatchItem> = emptyList(),
+    onChecked: (WatchItem, Boolean) -> Unit,
+    onClose: (WatchItem) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(list) { task ->
-            WellnessTaskItem(
+            WatchItem(
                 taskName = task.label,
                 checked = task.checked,
-                onCheckedChange = { checked -> onCheckedTask(task, checked) },
-                onClose = { onCloseTask(task) })
+                onCheckedChange = { checked -> onChecked(task, checked) },
+                onClose = { onClose(task) })
         }
     }
 }

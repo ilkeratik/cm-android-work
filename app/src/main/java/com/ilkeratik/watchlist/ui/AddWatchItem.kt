@@ -19,23 +19,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ilkeratik.watchlist.data.WellnessTask
+import com.ilkeratik.watchlist.data.WatchItem
 
 @Composable
-fun StatefulAddTask(onSave:  (WellnessTask) -> Unit, modifier: Modifier = Modifier,showSnackBar: Boolean = false ) {
+fun StatefulAddWatchItem(onSave:  (WatchItem) -> Unit, modifier: Modifier = Modifier,showSnackBar: Boolean = false ) {
     var value by rememberSaveable { mutableStateOf("") }
     if(showSnackBar){
         Snackbar(containerColor = Color.LightGray, modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
             .padding(5.dp)) {
-            Text(text = "Task label cannot be empty", color = Color(0xFFB00020), fontWeight = FontWeight.Bold)
+            Text(text = "Watch list label cannot be empty", color = Color(0xFFB00020), fontWeight = FontWeight.Bold)
         }
     }
-    StatelessAddTask(value, { wax-> value=wax }, onSave, modifier)
+    StatelessAddWatchItem(value, { wax-> value=wax }, onSave, modifier)
 }
 
 @Composable
-fun StatelessAddTask(input: String, onInputChange: (String) -> Unit, onSave: (WellnessTask)-> Unit, modifier: Modifier = Modifier) {
+fun StatelessAddWatchItem(input: String, onInputChange: (String) -> Unit, onSave: (WatchItem)-> Unit, modifier: Modifier = Modifier) {
 
     Row (
         modifier = Modifier
@@ -45,11 +45,11 @@ fun StatelessAddTask(input: String, onInputChange: (String) -> Unit, onSave: (We
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceBetween) {
         OutlinedTextField(
             singleLine = true,
-            label = { Text("Enter Task") },
+            label = { Text("Enter Watch Item") },
             value = input,
             onValueChange = { vax -> onInputChange(vax) },
         )
-        Button (onClick = {onSave(WellnessTask(input,input)); onInputChange("")}) {
+        Button (onClick = {onSave(WatchItem(input,input)); onInputChange("")}) {
             Text("+", fontSize = 30.sp)
         }
     }

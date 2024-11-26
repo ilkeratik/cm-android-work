@@ -8,27 +8,27 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ilkeratik.watchlist.data.WellnessTasksList
-import com.ilkeratik.watchlist.viewmodel.WellnessViewModel
+import com.ilkeratik.watchlist.data.WatchItemsList
+import com.ilkeratik.watchlist.viewmodel.WatchItemViewModel
 
 @Composable
 fun WellnessScreen(modifier: Modifier = Modifier,
-                   wellnessViewModel: WellnessViewModel = viewModel()) {
+                   watchItemViewModel: WatchItemViewModel = viewModel()) {
     var showError by rememberSaveable { mutableStateOf(false) }
     Column(modifier = modifier) {
-        StatefulAddTask(onSave = { newTask ->
-            if(newTask.label.isNotEmpty()){
-                wellnessViewModel.add(newTask)
+        StatefulAddWatchItem(onSave = { newItem ->
+            if(newItem.label.isNotEmpty()){
+                watchItemViewModel.add(newItem)
                 showError = false
             } else{
                 showError = true
             } },
             showSnackBar = showError)
-        WellnessTasksList(list = wellnessViewModel.tasks,
-            onCheckedTask = { task, checked ->
-                wellnessViewModel.changeTaskChecked(task, checked)
+        WatchItemsList(list = watchItemViewModel.watchItems,
+            onChecked = { watch, checked ->
+                watchItemViewModel.changeTaskChecked(watch, checked)
             },
-            onCloseTask = { task -> wellnessViewModel.remove(task) })
+            onClose = { task -> watchItemViewModel.remove(task) })
     }
 }
 

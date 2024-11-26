@@ -18,7 +18,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun WellnessTaskItem(
+fun WatchItem(
     taskName: String,
     checked: MutableState<Boolean>,
     onCheckedChange: (Boolean) -> Unit,
