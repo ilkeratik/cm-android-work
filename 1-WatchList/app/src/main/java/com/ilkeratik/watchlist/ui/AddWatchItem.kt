@@ -1,6 +1,6 @@
 package com.ilkeratik.watchlist.ui
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -56,25 +56,23 @@ fun StatelessAddWatchItem(
     modifier: Modifier = Modifier
 ) {
 
-    Box(
+    Row(
         modifier = Modifier
             .padding(5.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
             singleLine = true,
             label = { Text("Enter Watch Item") },
             value = input,
             onValueChange = { vax -> onInputChange(vax) },
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .fillMaxWidth(0.75f)
+            modifier = Modifier.weight(1f, true)
         )
         Button(
             onClick = { onSave(WatchItem(input, input)); onInputChange("") },
             modifier = Modifier
-                .padding(top = 10.dp)
-                .align(Alignment.TopEnd)
+                .padding(start = 10.dp)
         ) {
             Icon(Icons.Default.Add, contentDescription = "Add", Modifier.size(32.dp))
         }
