@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.ilkeratik.watchlist.ui.WatchListScreen
 import com.ilkeratik.watchlist.ui.theme.WatchListTheme
-import com.ilkeratik.watchlist.ui.WellnessScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WellnessScreen()
+                    WatchListScreen()
                 }
             }
         }

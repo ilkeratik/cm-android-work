@@ -1,5 +1,7 @@
 package com.ilkeratik.watchlist.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,15 +25,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ilkeratik.watchlist.data.WatchItem
 
 @Composable
 fun StatefulAddWatchItem(
-    onSave: (WatchItem) -> Unit,
-    modifier: Modifier = Modifier,
-    showSnackBar: Boolean = false
+    onSave: (WatchItemModel) -> Unit,
+    showSnackBar: Boolean = false,
+    expandFields: Boolean = false
 ) {
-    var value by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
     if (showSnackBar) {
         Snackbar(
             containerColor = Color.LightGray, modifier = Modifier
@@ -39,42 +41,80 @@ fun StatefulAddWatchItem(
                 .padding(5.dp)
         ) {
             Text(
-                text = "Watch list label cannot be empty",
+                text = "Watch list name cannot be empty!",
                 color = Color(0xFFB00020),
                 fontWeight = FontWeight.Bold
             )
         }
     }
-    StatelessAddWatchItem(value, { wax -> value = wax }, onSave, modifier)
+    StatelessAddWatchItem(
+        name,
+        { n -> name = n },
+        description,
+        { d -> description = d },
+        onSave,
+        expandFields = expandFields
+    )
 }
 
 @Composable
 fun StatelessAddWatchItem(
-    input: String,
-    onInputChange: (String) -> Unit,
-    onSave: (WatchItem) -> Unit,
-    modifier: Modifier = Modifier
+    name: String,
+    onNameInputChange: (String) -> Unit,
+    description: String,
+    onDescriptionInputChange: (String) -> Unit,
+    onSave: (WatchItemModel) -> Unit,
+    expandFields: Boolean
 ) {
-
     Row(
         modifier = Modifier
             .padding(5.dp)
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        OutlinedTextField(
-            singleLine = true,
-            label = { Text("Enter Watch Item") },
-            value = input,
-            onValueChange = { vax -> onInputChange(vax) },
-            modifier = Modifier.weight(1f, true)
-        )
-        Button(
-            onClick = { onSave(WatchItem(input, input)); onInputChange("") },
-            modifier = Modifier
-                .padding(start = 10.dp)
+        Column(
+            modifier = Modifier.padding(start = 5.dp, end = 5.dp)
         ) {
-            Icon(Icons.Default.Add, contentDescription = "Add", Modifier.size(32.dp))
+            if (expandFields) {
+                OutlinedTextField(
+                    singleLine = true,
+                    label = { Text("Enter Name") },
+                    value = name,
+                    onValueChange = { n -> onNameInputChange(n) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    maxLines = 3,
+                    label = { Text("Enter Description") },
+                    value = description,
+                    onValueChange = { d -> onDescriptionInputChange(d) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            Button(
+                onClick = {
+                    onSave(
+                        WatchItemModel(
+                            name,
+                            name,
+                            description
+                        )
+                    );
+                    onNameInputChange("");
+                    onDescriptionInputChange("")
+                },
+                modifier = if (expandFields) {
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 5.dp)
+                } else {
+                    Modifier.padding(top = 5.dp)
+                }
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add", Modifier.size(32.dp))
+            }
         }
+
     }
 }
