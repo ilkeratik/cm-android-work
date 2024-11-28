@@ -29,11 +29,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun StatefulAddWatchItem(
     onSave: (WatchItemModel) -> Unit,
-    showSnackBar: Boolean = false,
-    expandFields: Boolean = false
 ) {
     var name by rememberSaveable { mutableStateOf("") }
     var description by rememberSaveable { mutableStateOf("") }
+    var showSnackBar by rememberSaveable { mutableStateOf(false) }
+    var expandFields by rememberSaveable { mutableStateOf(false) }
+
     if (showSnackBar) {
         Snackbar(
             containerColor = Color.LightGray, modifier = Modifier
@@ -52,7 +53,16 @@ fun StatefulAddWatchItem(
         { n -> name = n },
         description,
         { d -> description = d },
-        onSave,
+        onSave = {
+            if (!expandFields) {
+                expandFields = true
+            } else if (it.name.isNotEmpty()) {
+                onSave(it)
+                expandFields = false
+            } else {
+                showSnackBar = true
+            }
+        },
         expandFields = expandFields
     )
 }
@@ -100,8 +110,8 @@ fun StatelessAddWatchItem(
                             name,
                             description
                         )
-                    );
-                    onNameInputChange("");
+                    )
+                    onNameInputChange("")
                     onDescriptionInputChange("")
                 },
                 modifier = if (expandFields) {

@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,8 +18,6 @@ import com.ilkeratik.watchlist.viewmodel.WatchItemViewModel
 fun WatchListScreen(
     watchItemViewModel: WatchItemViewModel = viewModel()
 ) {
-    var showError by rememberSaveable { mutableStateOf(false) }
-    var expandFields by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -55,18 +49,8 @@ fun WatchListScreen(
         }
         StatefulAddWatchItem(
             onSave = { newItem ->
-                if (!expandFields) {
-                    expandFields = true
-                } else if (newItem.name.isNotEmpty()) {
-                    watchItemViewModel.add(newItem)
-                    expandFields = false
-                    showError = false
-                } else {
-                    showError = true
-                }
-            },
-            showSnackBar = showError,
-            expandFields = expandFields
+                watchItemViewModel.add(newItem)
+            }
         )
     }
 }
